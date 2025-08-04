@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CrudSimulacionPruebaTecnica.Data;
+using CrudSimulacionPruebaTecnica.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ var conectionString = builder.Configuration.GetConnectionString("DefaultConnecti
 // Add services to the container.
 builder.Services.AddDbContext<AplicationDBContext>(options =>
 options.UseSqlServer(conectionString));
+
+//servicios
+builder.Services.AddAplicationServices();
 
 builder.Services.AddControllersWithViews();
 
