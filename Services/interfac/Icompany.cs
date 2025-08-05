@@ -8,7 +8,7 @@ namespace CrudSimulacionPruebaTecnica.Services.interfac
          Task<IEnumerable<Empresas>> GetAllCompanyAsync();
          Task<Empresas> GetByIdCompany(int id);
          Task CreateCompanyAsync(Empresas empresas);
-         Task EditCompanyAsync(Empresas empresas);
+         Task UpdateCompanyAsync(Empresas empresas);
          Task DeleteCompanyAsync(int id);
     }
 }
