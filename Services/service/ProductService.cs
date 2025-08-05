@@ -2,6 +2,7 @@
 using CrudSimulacionPruebaTecnica.Models;
 using CrudSimulacionPruebaTecnica.Services.interfac;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.Xml;
 
 namespace CrudSimulacionPruebaTecnica.Services.service
 {
@@ -18,26 +19,38 @@ namespace CrudSimulacionPruebaTecnica.Services.service
         }
         public async Task<Product> GetByIdProductAsync(int id)
         {
-            return await _context.Product.FindAsync(id);
+            var product = await _context.Product.FindAsync(id);
+            if (product == null)
+                throw new KeyNotFoundException($"No se encontro ningun producto con este id {id}");
+            return product;
         }
         public async Task CreateProductAsync(Product product)
         {
-            _context.Product.Add(product); //AGREGO EL PRODUCTO
-            await _context.SaveChangesAsync();//LO GUARDO 
+            if (product == null)
+                throw new ArgumentNullException(nameof(product), "El producto no puede ser nulo");
+            await _context.Product.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateProductAsync(Product product)
         {
-            _context.Product.Update(product); //acutalizo el producto
+            var existeProducto = await GetByIdProductAsync(product.Id);
+            if (existeProducto == null)
+                throw new KeyNotFoundException($"Este producto no existe");
+            //actualizo propiedad por propiedad asi no se actualiza todo el producto o las propiedades nsesearias
+            existeProducto.Name = product.Name;
+            existeProducto.Description = product.Description;
+            existeProducto.Price = product.Price;
+            existeProducto.Stock = product.Stock;
+
             await _context.SaveChangesAsync();
         }
         public async Task DeleteProductAsync(int id)
         {
             var product = await GetByIdProductAsync(id);
-            if(product != null)
-            {
-                _context.Product.Remove(product);
-                await _context.SaveChangesAsync();
-            }
+            if (product != null)
+                throw new KeyNotFoundException($"Este producto no existe");
+            _context.Product.Remove(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

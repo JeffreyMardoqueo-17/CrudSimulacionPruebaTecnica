@@ -8,6 +8,7 @@ namespace CrudSimulacionPruebaTecnica.Data
         public AplicationDBContext(DbContextOptions<AplicationDBContext> options) : base(options) { }
 
         public DbSet<Product> Product { get; set; }
+        public DbSet<Empresas> Empresas { get; set; }
         
     }
 }

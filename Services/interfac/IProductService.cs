@@ -2,12 +2,12 @@
 
 namespace CrudSimulacionPruebaTecnica.Services.interfac
 {
-    interface IProductService
+    public interface IProductService
     {
         Task<IEnumerable<Product>> GetAllProductAsync();
         Task<Product> GetByIdProductAsync(int id);
-        Task<Product> CreateProductAsync(Product product);
-        Task<Product> UpdateProductAsync(Product product);
+        Task CreateProductAsync(Product product);
+        Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);
     }
 }
