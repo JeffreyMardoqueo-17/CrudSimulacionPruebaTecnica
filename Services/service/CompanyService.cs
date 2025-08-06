@@ -29,6 +29,8 @@ namespace CrudSimulacionPruebaTecnica.Services.service
         {
             if(empresa == null)
                 throw new ArgumentNullException(nameof(empresa), "El producto no puede ser nulo");
+
+            
             await _context.Empresas.AddAsync(empresa);
             await _context.SaveChangesAsync();
         }

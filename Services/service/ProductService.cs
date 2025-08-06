@@ -28,6 +28,8 @@ namespace CrudSimulacionPruebaTecnica.Services.service
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product), "El producto no puede ser nulo");
+
+            product.CreateAt = DateTime.Now;//se guardara la fecha actual
             await _context.Product.AddAsync(product);
             await _context.SaveChangesAsync();
         }
@@ -47,10 +49,12 @@ namespace CrudSimulacionPruebaTecnica.Services.service
         public async Task DeleteProductAsync(int id)
         {
             var product = await GetByIdProductAsync(id);
-            if (product != null)
+            if (product == null)
                 throw new KeyNotFoundException($"Este producto no existe");
+
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
         }
+
     }
 }
